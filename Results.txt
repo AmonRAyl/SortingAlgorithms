@@ -2,31 +2,31 @@ Results obtained after executing the program 5 times with each algorithm (100 00
 
 a) Insertion Sort
 	results = [9.107,9.145,9.127,9.089,9.202]
-	mean = 9.134
+	mean = 9.134 seconds
 b) Quick Sort
 	results = [0.008,0.009,0.008,0.008,0.009]
-	mean = 0.0084
+	mean = 0.0084 seconds
 c) Selection Sort
 	results = [3.921,3.807,3.801,3.823,3.784]
-	mean = 3.8272
+	mean = 3.8272 seconds
 d) Merge Sort
 	results = [0.083,0.082,0.087,0.082,0.085]
-	mean = 0.0838
+	mean = 0.0838 seconds
 e) Bubble Sort
 	results = [14.275,14.515,14.326,14.093,14.424]
-	mean = 14.3266
+	mean = 14.3266 seconds
 f) Tim Sort
 	results = [0.011,0.011,0.012,0.011,0.01]
-	mean = 0.011
+	mean = 0.011 seconds
 
 	Exhaustive testing 10 000 000 random elements:
 b) Quick Sort
 	results = [1.068,1.073,1.074,1.073,1.073]
-	mean = 1.0722
+	mean = 1.0722 seconds
 c) Selection Sort
 	+1 hour 
 d) Merge Sort
 	Error : not enough memory to allocate (+2 GB) ...
 f) Tim Sort
 	results = [1.49,1.496,1.49,1.497,1.498]
-	mean = 1.4942
+	mean = 1.4942 seconds
