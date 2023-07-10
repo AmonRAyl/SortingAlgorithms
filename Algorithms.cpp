@@ -11,16 +11,16 @@ void printArr(int* arr, int size) {
 
 }
 
-int* insertionSort(int* original, int size) {
+int* insertionSort(int* original, int size, int start) {
     /*
     This algorithm compares two values and if they are not in the correct orther then you swap them and check
     if the new position of the swaped value is correct with the next one in the array.
     */
     int aux = 0;
-    for (int i = 0; i < size-1; i++)
+    for (int i = start; i < size-1; i++)
     {
-        if (i < 0)
-            i = 0;
+        if (i < start)
+            i = start;
         if (original[i] > original[i + 1]) {
             aux = original[i];
             original[i] = original[i + 1];
@@ -137,12 +137,82 @@ int* mergeSort(int* original, int size) {
     }
     return original;
 }
+int* bubbleSort(int* original, int size) {
+    int aux;
+    size = size - 1;
+    while(size>0) {
+        for (int i = 0; i < size; i++) {
+            if (original[i] > original[i + 1]) {
+                aux = original[i];
+                original[i] = original[i + 1];
+                original[i + 1] = aux;
+            }
+        }
+        size--;
+    }
+    return original;
+}
+int* timSort(int* original, int size) {
+    int elements = 3;
+    int a = size % elements;
+    int* result = new int[size];
+    for (int i = 0; i < size/elements; i ++) {
+        insertionSort(original, elements * (i+1), elements * i);
+    }
+    if (a != 0)
+        insertionSort(original, size, size - a);
+    int count = 0;
+    while (true) {
+        int k = elements * (count * 2);
+        if (k >= size) {
+            k = 0;
+            count = 0;
+            elements += elements;
+        }
+        int leftsize = elements;
+        if (leftsize >= size)
+            break;
+        int rightsize = leftsize;
+        int l = k + elements;
+        int initialk = k;
+        if (l+elements > size){
+            rightsize = size - l;
+        }
+        for (int j = 0; j < leftsize+rightsize; j++) {
+            if (k- initialk >= leftsize) {
+                result[j] = original[l];
+                l++;
+            }
+            else {
+                if (l- initialk >= rightsize+elements) {
+                    result[j] = original[k];
+                    k++;
+                }
+                else {
+                    if (original[k] <= original[l]) {
+                        result[j] = original[k];
+                        k++;
+                    }
+                    else {
+                        result[j] = original[l];
+                        l++;
+                    }
+                }
+            }
+        }
+        for (int f = initialk; f < leftsize + rightsize+initialk; f++){
+            original[f] = result[f- initialk];
+        }
+        count++;
+    }
+    return result;
+}
 
 int* initializeRandomArray(int size) {
     std::random_device rd;
     std::mt19937 gen(rd());
 
-    int desired_max_value = 10000;
+    int desired_max_value = 10000000;
 
     std::uniform_int_distribution<> dis(0, desired_max_value);
 
@@ -163,6 +233,7 @@ char menu() {
     std::cout << "c) Selection Sort" << "\n";
     std::cout << "d) Merge Sort" << "\n";
     std::cout << "e) Bubble Sort" << "\n";
+    std::cout << "f) Tim Sort" << "\n";
 
     std::cin >> selection;
     return selection;
@@ -172,7 +243,7 @@ int* callAlgorithm(char selection,int* arr,int size) {
     switch (selection)
     {
     case 'a':
-        res = insertionSort(arr, size);
+        res = insertionSort(arr, size,0);
         break;
     case 'b':
         res = quickSort(arr, 0,size);
@@ -184,8 +255,10 @@ int* callAlgorithm(char selection,int* arr,int size) {
         res = mergeSort(arr, size);
         break;
     case 'e':
+        res = bubbleSort(arr, size);
         break;
     case 'f':
+        res = timSort(arr, size);
         break;
     default:
         std::cout << "Invalid option..."<<"\n";
@@ -205,8 +278,7 @@ bool checkSort(int* ar, int size) {
 int main() {
     clock_t start, end;
     double total_time;
-    //int size = 10;
-    int size = 100000;
+    int size = 10000000;
     int* arr = initializeRandomArray(size);
 
     /*
@@ -219,8 +291,8 @@ int main() {
     arr[5] = 10;
     arr[6] = 4;
     arr[7] = 2;
-    int size = 8;
-    */
+    arr[8] = 2;*/
+    
 
     char selection= menu();
 
