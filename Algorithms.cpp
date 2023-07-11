@@ -12,21 +12,16 @@ void printArr(int* arr, int size) {
 }
 
 int* insertionSort(int* original, int size, int start) {
-    /*
-    This algorithm compares two values and if they are not in the correct orther then you swap them and check
-    if the new position of the swaped value is correct with the next one in the array.
-    */
-    int aux = 0;
-    for (int i = start; i < size-1; i++)
-    {
-        if (i < start)
-            i = start;
-        if (original[i] > original[i + 1]) {
-            aux = original[i];
-            original[i] = original[i + 1];
-            original[i + 1] = aux;
-            i -= 2;
+    int value, j;
+    for (int i = start + 1; i < size; i++) {
+        value = original[i];
+        j = i - 1;
+
+        while (j >= start && original[j] > value) {
+            original[j + 1] = original[j];
+            j--;
         }
+        original[j + 1] = value;
     }
     return original;
 }
@@ -35,7 +30,7 @@ int* quickSort(int* original, int start, int end) {
     int aux;
     original[start] = original[end - 1];
     original[end - 1] = initialpivot;
-    int leftStop = 123456789;
+    int leftStop = -1;
     int rightStop = end - 2;
     bool found = false;
     for (int i = start; i < end; i++) {
@@ -67,7 +62,7 @@ int* quickSort(int* original, int start, int end) {
             }
         }
     }
-    if (leftStop == 123456789 && start<end-1) {
+    if (leftStop == -1 && start<end-1) {
         original = quickSort(original, start, end-1);
     }
     return original;
@@ -153,7 +148,7 @@ int* bubbleSort(int* original, int size) {
     return original;
 }
 int* timSort(int* original, int size) {
-    int elements = 3;
+    int elements = 32;
     int a = size % elements;
     int* result = new int[size];
     for (int i = 0; i < size/elements; i ++) {
@@ -212,7 +207,7 @@ int* initializeRandomArray(int size) {
     std::random_device rd;
     std::mt19937 gen(rd());
 
-    int desired_max_value = 10000000;
+    int desired_max_value = 100000;
 
     std::uniform_int_distribution<> dis(0, desired_max_value);
 
@@ -278,31 +273,16 @@ bool checkSort(int* ar, int size) {
 int main() {
     clock_t start, end;
     double total_time;
-    int size = 10000000;
+    int size = 100000;
     int* arr = initializeRandomArray(size);
-
-    /*
-    int* arr = new int[8];
-    arr[0] = 5;
-    arr[1] = 6;
-    arr[2] = 8;
-    arr[3] = 1;
-    arr[4] = 3;
-    arr[5] = 10;
-    arr[6] = 4;
-    arr[7] = 2;
-    arr[8] = 2;*/
-    
 
     char selection= menu();
 
-    //printArr(arr, size);
     //start timer
     start = clock();
     int* result = callAlgorithm(selection,arr,size);
     end = clock();
     //end timer
-    //printArr(result, size);
 
     total_time = ((double)(end - start)) / CLOCKS_PER_SEC;
     std::cout << "CPU time used "<< total_time<<" seconds"<<"\n";
